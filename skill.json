@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "webinarPokedex",
+          "sourceDir": "lambda/us-east-1_webinarPokedex"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      }
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Webinar Pokedex",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/898a/70caed4842a14ba9a8dac6421d8a27af/APP_ICON?versionId=_FVbian7P1fuP5yvy6QtUseGeejwvjbV&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1549912077&Signature=3UG6oERthEJMAJ9x5E4OMt%2Br9kY%3D",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/bf53/ab99f20936d34b95a36923d5f3d38c1d/APP_ICON_LARGE?versionId=PPJoUxFwF201OlZBGtxRVW2gOcziFejy&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1549912077&Signature=VCL5%2BhoXkN4FA8y1AJD5W7PhUDE%3D",
+          "examplePhrases": [],
+          "keywords": []
+        }
+      },
+      "isAvailableWorldwide": true,
+      "distributionCountries": []
+    }
+  }
+}
