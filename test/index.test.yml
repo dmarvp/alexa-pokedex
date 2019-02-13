@@ -8,19 +8,19 @@ configuration:
 ---
 - test: Launch and ask for Pikachu
 - LaunchRequest
-- 25: pikachu
+- PokedexIntent number=25: pikachu
 
 ---
 - test: Launch and ask for Pikachu, then for charizard
 - LaunchRequest
-- 25: pikachu
-- yes: Which number of Pokemon would you like to know about?
-- I want to know about number 6: charizard
+- PokedexIntent number=25: pikachu
+- AMAZON.YesIntent: Which number of Pokemon would you like to know about?
+- PokedexIntent number=6: charizard
 
 ---
 - test: Launch and ask for bulbasaur, check multiple answers
 - LaunchRequest
-- 1:
+- PokedexIntent number=1:
     - prompt:
         - nutrients
         - sunlight
@@ -30,7 +30,7 @@ configuration:
 ---
 - test: Launch and ask for psyduck, check the card object
 - LaunchRequest
-- 54:
+- PokedexIntent number=54:
     - prompt: psyduck
     - cardTitle == psyduck
     - response.card.text: headache
