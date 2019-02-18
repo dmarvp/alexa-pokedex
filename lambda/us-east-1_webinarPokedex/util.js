@@ -14,7 +14,10 @@ const getRandomInt = function (min, max) {
 }
 
 const getPokedexEntry = async function (number) {
-    const P = new Pokedex();
+    const options = {
+        cacheLimit: 1000
+    };
+    const P = new Pokedex(options);
     const basicResponse = await P.getPokemonByName(number);
     const pokedexResponse = await P.getPokemonSpeciesByName(number);
     const dexEntries = pokedexResponse.flavor_text_entries.filter(function (entry) {
