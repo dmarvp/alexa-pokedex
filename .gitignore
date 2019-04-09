@@ -1,3 +1,4 @@
 .ask
 .DS_Store
 test/coverage/
+.vscode/launch.json

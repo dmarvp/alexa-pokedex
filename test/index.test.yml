@@ -2,41 +2,27 @@
 configuration:
     locales: en-US
 ---
-- test: LaunchRequest, no further interaction
-- LaunchRequest: Welcome to the Webinar Pokedex
+- test: Launch Request and no further interaction
+- LaunchRequest: Welcome to the Webinar Pokedex *
 
 ---
-- test: Launch and ask for Pikachu
+- test: Launch and then ask for Help
 - LaunchRequest
-- PokedexIntent number=25: pikachu
+- AMAZON.HelpIntent: Tell me the number of a pokemon you would like to know about
 
 ---
-- test: Launch and ask for Pikachu, then for charizard
+- test: Launch and then ask for Pikachu
 - LaunchRequest
-- PokedexIntent number=25: pikachu
-- AMAZON.YesIntent: Which number of Pokemon would you like to know about?
-- PokedexIntent number=6: charizard
+- PokedexIntent number=25: 
+    - prompt != pikachu
 
 ---
-- test: Launch and ask for bulbasaur, check multiple answers
+- test: Launch and then ask for Bulbasaur test prompts and cards
 - LaunchRequest
-- PokedexIntent number=1:
-    - prompt:
-        - nutrients
-        - sunlight
-        - nourishment
-        - sun
-
----
-- test: Launch and ask for psyduck, check the card object
-- LaunchRequest
-- PokedexIntent number=54:
-    - prompt: psyduck
-    - cardTitle == psyduck
-    - response.card.text: headache
-    - sessionEnded == false
-
---- 
-- test: Launch and ask for help
-- LaunchRequest
-- AMAZON.HelpIntent: Tell me the number of a pokemon you would like to know about.
+- PokedexIntent number=1: 
+  - prompt !=
+    - bulbasaur
+    - sun
+    - seeds
+    - seed
+  - response.card.type: Standard
