@@ -8,8 +8,8 @@ const LaunchRequestHandler = {
                 handlerInput.requestEnvelope.request.intent.name === 'AMAZON.YesIntent');
     },
     handle(handlerInput) {
-        const WELCOME = "Welcome to the Webinar Pokedex.";
-        const REPROMPT = "Which number of Pokemon would you like to know about?";
+        const WELCOME = "Welcome to the Voice Pokedex.";
+        const REPROMPT = "Tell me the name or number of a Pokemon you'd like to know about";
         const speechText = handlerInput.requestEnvelope.request.type === 'LaunchRequest' ?
             `${WELCOME} ${REPROMPT}` : REPROMPT;
         return handlerInput.responseBuilder
@@ -26,9 +26,10 @@ const PokedexIntentHandler = {
     },
     async handle(handlerInput) {
         const REPROMPT = "Would you like to ask for another pokemon?";
-        const number = handlerInput.requestEnvelope.request.intent.slots.number.value;
-        const entry = await PokeUtil.getPokedexEntry(number);
-        const speechText = `The pokemon at ${number} is ${entry.name}. ${entry.description}. ${REPROMPT}`;
+        const pokemon = PokeUtil.slotValue(handlerInput.requestEnvelope.request.intent.slots.pokemon).toLowerCase();
+        console.log(handlerInput.requestEnvelope.request.intent.slots);
+        const entry = await PokeUtil.getPokedexEntry(pokemon);
+        const speechText = `${entry.name}. ${entry.description}. ${REPROMPT}`;
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(REPROMPT)
@@ -43,8 +44,8 @@ const HelpIntentHandler = {
             handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const HELP = "Tell me the number of a pokemon you would like to know about." +
-            " Currently, you can ask for a pokemon up to the number 802.";
+        const HELP = "Tell me the name or the number of a pokemon you would like to know about." +
+            " Currently, you can ask for a pokemon up to the number 151.";
         return handlerInput.responseBuilder
             .speak(HELP)
             .reprompt(HELP)
@@ -60,7 +61,7 @@ const NoCancelAndStopIntentHandler = {
                 handlerInput.requestEnvelope.request.intent.name === 'AMAZON.NoIntent');
     },
     handle(handlerInput) {
-        const GOODBYE = "Thank you for using the Webinar Pokedex!";
+        const GOODBYE = "Thank you for using the Voice Pokedex!";
         return handlerInput.responseBuilder
             .speak(GOODBYE)
             .getResponse();
