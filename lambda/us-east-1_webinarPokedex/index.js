@@ -25,9 +25,26 @@ const PokedexIntentHandler = {
             handlerInput.requestEnvelope.request.intent.name === 'PokedexIntent';
     },
     async handle(handlerInput) {
-        const REPROMPT = "Would you like to ask for another pokemon?";
-        const pokemon = PokeUtil.slotValue(handlerInput.requestEnvelope.request.intent.slots.pokemon).toLowerCase();
-        console.log(handlerInput.requestEnvelope.request.intent.slots);
+        const pokemon = PokeUtil.slotValue(handlerInput.requestEnvelope.request.intent.slots.pokemon, true).toLowerCase();
+        const pokemonValue = PokeUtil.slotValue(handlerInput.requestEnvelope.request.intent.slots.pokemon);
+        return await pokedexEntry(handlerInput, pokemon);
+    }
+};
+
+const PokemonByNumberIntentHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest' &&
+            handlerInput.requestEnvelope.request.intent.name === 'PokemonByNumberIntent';
+    },
+    async handle(handlerInput) {
+        const pokemon = PokeUtil.slotValue(handlerInput.requestEnvelope.request.intent.slots.pokemonNumber);
+        return await pokedexEntry(handlerInput, pokemon);
+    }
+};
+
+async function pokedexEntry(handlerInput, pokemon) {
+    const REPROMPT = "Would you like to ask for another pokemon?";
+    try {
         const entry = await PokeUtil.getPokedexEntry(pokemon);
         const speechText = `${entry.name}. ${entry.description}. ${REPROMPT}`;
         return handlerInput.responseBuilder
@@ -35,8 +52,15 @@ const PokedexIntentHandler = {
             .reprompt(REPROMPT)
             .withStandardCard(entry.name, entry.description, entry.img)
             .getResponse();
+    } catch (error) {
+        const speechText = `I couldn't find any pokedex entry for: ${pokemon}. `;
+        return handlerInput.responseBuilder
+        .speak(speechText + REPROMPT)
+        .reprompt(REPROMPT)
+        .withStandardCard("Not found", speechText)
+        .getResponse();
     }
-};
+}
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -101,6 +125,7 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
         PokedexIntentHandler,
+        PokemonByNumberIntentHandler,
         HelpIntentHandler,
         NoCancelAndStopIntentHandler,
         SessionEndedRequestHandler)
