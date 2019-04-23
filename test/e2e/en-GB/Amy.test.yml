@@ -1,0 +1,38 @@
+---
+configuration:
+    locale: en-US
+    virtualDeviceToken: d4cad632-bd8f-4b7b-8f72-cd6a45c106c6
+    voiceId: Amy
+    type: e2e
+
+--- 
+- test: Pikachu one shot
+- ask the voice pokedex to tell me about Pikachu: Pikachu
+
+--- 
+- test:  Exeggutor one shot
+- ask the voice pokedex to tell me about Exeggutor: Exeggutor
+
+--- 
+- test:  Dragonite one shot
+- ask the voice pokedex to tell me about Dragonite: Dragonite
+
+--- 
+- test:  Kabuto one shot
+- ask the voice pokedex to tell me about Kabuto: Kabuto
+
+--- 
+- test:  Spinarak one shot
+- ask the voice pokedex to tell me about Spinarak: Spinarak
+
+--- 
+- test:  Pichu one shot
+- ask the voice pokedex to tell me about Pichu: Pichu
+
+--- 
+- test:  Farfetchd one shot
+- ask the voice pokedex to tell me about Farfetchd: Farfetchd
+
+---
+- test:  Mister Mime one shot
+- ask the voice pokedex to tell me about Mister Mime: Mime
