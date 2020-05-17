@@ -45,8 +45,13 @@ const PokemonByNumberIntentHandler = {
 async function pokedexEntry(handlerInput, pokemon) {
     const REPROMPT = "Would you like to ask for another pokemon?";
     try {
+        
+        let progressiveResponse = 'Please hold while I look that up for you.'  
+        await callDirectiveService(handlerInput, progressiveResponse);  
+
         const entry = await PokeUtil.getPokedexEntry(pokemon);
         const speechText = `${entry.name}. ${entry.description}. ${REPROMPT}`;
+
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(REPROMPT)
@@ -54,11 +59,12 @@ async function pokedexEntry(handlerInput, pokemon) {
             .getResponse();
     } catch (error) {
         const speechText = `I couldn't find any pokedex entry for: ${pokemon}. `;
+        console.log(error);
         return handlerInput.responseBuilder
-        .speak(speechText + REPROMPT)
-        .reprompt(REPROMPT)
-        .withStandardCard("Not found", speechText)
-        .getResponse();
+            .speak(speechText + REPROMPT)
+            .reprompt(REPROMPT)
+            .withStandardCard("Not found", speechText)
+            .getResponse();
     }
 }
 
@@ -118,6 +124,29 @@ const ErrorHandler = {
     }
 };
 
+function callDirectiveService(handlerInput, progressiveResponse) {
+    // Call Alexa Directive Service.  
+    const requestEnvelope = handlerInput.requestEnvelope;
+    const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
+    const requestId = requestEnvelope.request.requestId;
+    const endpoint = requestEnvelope.context.System.apiEndpoint;
+    const token = requestEnvelope.context.System.apiAccessToken;
+
+    // build the progressive response directive  
+    const directive = {
+        header: {
+            requestId,
+        },
+        directive: {
+            type: 'VoicePlayer.Speak',
+            speech: progressiveResponse,
+        },
+    };
+
+    // send directive  
+    return directiveServiceClient.enqueue(directive, endpoint, token);
+}
+
 // This handler acts as the entry point for your skill, routing all request and response
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
@@ -131,4 +160,5 @@ exports.handler = Alexa.SkillBuilders.custom()
         SessionEndedRequestHandler)
     .addErrorHandlers(
         ErrorHandler)
+    . withApiClient(new Alexa.DefaultApiClient())
     .lambda();
