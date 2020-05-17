@@ -1,4 +1,8 @@
 .ask
 .DS_Store
 test/coverage/
+test/unit/coverage/
 .vscode/launch.json
+test/e2e/test_output
+test_output
+bst-debug.log
