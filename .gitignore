@@ -6,3 +6,5 @@ test/unit/coverage/
 test/e2e/test_output
 test_output
 bst-debug.log
+lambda/node_modules
+lambda/test_output
